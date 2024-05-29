@@ -1,0 +1,81 @@
+﻿@page "/FC"
+@using MudBlazor
+@inject NavigationManager NavigationManager
+
+<MudContainer Class="centered-container">
+    <MudGrid>
+        <MudItem xs="4" sm="4" md="4" lg="4" xl="4">
+            <MudContainer Class="course-box">
+                <MudTextField Label="Search Course" @bind-Value="@searchQuery" Variant="Variant.Filled" Outlined="true" Class="search-field" />
+                <div class="course">
+                    @foreach (var course in FilteredCourses())
+                    {
+                        <div class="course-container" @onclick="() => NavigateToCourseCreationTool(course)">
+                            <MudText>@course.Name</MudText>
+                        </div>
+                    }
+                </div>
+            </MudContainer>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private List<Course> courses = new List<Course>
+    {
+        new Course { Id = 1, Name = "Course 1", Level = Level.Beginner, CourseSize = 1.0, Tag = "Tag1", Theme = "Theme1"},
+        new Course { Id = 2, Name = "Course 2", Level = Level.Trained, CourseSize = 2.0, Tag = "Tag2", Theme = "Theme2"},
+        new Course { Id = 3, Name = "Course 3", Level = Level.Expert, CourseSize = 3.0, Tag = "Tag3", Theme = "Theme3"},
+        new Course { Id = 4, Name = "Course 4", Level = Level.Champion, CourseSize = 3.0, Tag = "Tag3", Theme = "Theme3"},
+        new Course { Id = 5, Name = "Course 5", Level = Level.Open, CourseSize = 3.0, Tag = "Tag3", Theme = "Theme3"}
+    };
+
+    private string searchQuery = "";
+
+    private IEnumerable<Course> FilteredCourses()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            return courses;
+        }
+
+        return courses.Where(c => c.Name.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase) >= 0);
+    }
+
+    private void NavigateToCourseCreationTool(Course course)
+    {
+        var uri = $"CCT?name={course.Name}&level={course.Level}";
+        NavigationManager.NavigateTo(uri);
+    }
+}
+
+
+<style>
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .course-box {
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 8px;
+    }
+
+    .course-container {
+        margin-top: 20px;
+    }
+
+    .course {
+        padding: 10px;
+        border: 1px solid black;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .search-field {
+        margin-bottom: 10px;
+    }
+</style>

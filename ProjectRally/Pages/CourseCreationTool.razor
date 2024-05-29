@@ -1,0 +1,245 @@
+﻿@page "/CCT"
+@using MudBlazor
+@inject NavigationManager NavigationManager
+
+<div class="outer-wrapper">
+    <div class="sidebar">
+            <MudButton Color="Color.Primary" OnClick="() => AddSignToGrid(sign)">Tilføj Skilt</MudButton>
+            <MudButton Color="Color.Primary" OnClick="() => DrawArrowToGrid(arrow)">Tegn Pil</MudButton>
+            <MudButton Color="Color.Primary" OnClick="() => DoVisible(course)">Gør Offentlig</MudButton>
+            <MudButton Color="Color.Primary" OnClick="() => Save(courseName)">Gem</MudButton>
+    </div>
+
+    <div class="form-container">
+        <MudContainer Class="form-fields">
+            <MudTextField Label="Course Name" @bind-Value="@courseName" Variant="Variant.Filled" Outlined="true" Class="textbox" />
+            <MudSelect T="Level" Label="Sværhedsgrad" @bind-Value="niveau" Variant="Variant.Filled" Outlined="true" Class="search-field">
+                @foreach (var level in courses.Select(c => c.Level).Distinct())
+                {
+                    <MudSelectItem Value="@level">@level</MudSelectItem>
+                }
+            </MudSelect>
+        </MudContainer>
+    </div>
+
+    <div class="inner-wrapper">
+        <MudGrid Class="grid" Spacing="3">
+            @foreach (var gridElement in gridElements)
+            {
+                <MudItem>
+                    <MudPaper Class="cell">
+                        <MudText>@gridElement.Type</MudText>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+
+        <div class="side-container">
+            <MudContainer Class="element-box">
+                <MudTextField Label="Search Elements" @bind-Value="@searchQuery" Variant="Variant.Filled" Outlined="true" Class="search-field" />
+                <div class="elements-container">
+                    @foreach (var element in FilteredElements())
+                    {
+                        <div class="element">
+                            <MudText>@element.Type</MudText>
+                            <MudButton Color="Color.Primary" OnClick="() => AddElementToGrid(element)">Add to Grid</MudButton>
+                        </div>
+                    }
+                </div>
+            </MudContainer>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Element> elements = new List<Element>
+    {
+        new Element { Type = "Element 1" },
+        new Element { Type = "Element 2" },
+        new Element { Type = "Element 3" },
+        new Element { Type = "Element 4" },
+        new Element { Type = "Element 5" },
+        new Element { Type = "Element 6" }
+    };
+
+    private List<Course> courses = new List<Course>
+    {
+        new Course { Id = 1, Name = "Course 1", Level = Level.Beginner, CourseSize = 1.0, Tag = "Tag1", Theme = "Theme1"},
+        new Course { Id = 2, Name = "Course 2", Level = Level.Trained, CourseSize = 2.0, Tag = "Tag2", Theme = "Theme2"},
+        new Course { Id = 3, Name = "Course 3", Level = Level.Expert, CourseSize = 3.0, Tag = "Tag3", Theme = "Theme3"},
+        new Course { Id = 4, Name = "Course 4", Level = Level.Champion, CourseSize = 3.0, Tag = "Tag3", Theme = "Theme3"},
+        new Course { Id = 5, Name = "Course 5", Level = Level.Open, CourseSize = 3.0, Tag = "Tag3", Theme = "Theme3"}
+    };
+
+    private List<Element> gridElements = new List<Element>();
+
+    private string searchQuery = "";
+    private string courseName = "";
+    private Level niveau;
+    private Arrow arrow;
+    private Course course;
+    private Sign sign;
+
+
+    protected override void OnInitialized()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+        if (query.TryGetValue("name", out var name))
+        {
+            courseName = name;
+        }
+
+        if (query.TryGetValue("level", out var level))
+        {
+            niveau = Enum.Parse<Level>(level);
+        }
+    }
+
+    private void AddElementToGrid(Element element)
+    {
+        gridElements.Add(element);
+        Console.WriteLine($"Adding {element.Type} to grid");
+    }
+
+    private void AddSignToGrid(Sign _sign)
+    {
+
+    }
+
+    private void DrawArrowToGrid(Arrow _arrow)
+    {
+
+    }
+
+    private void DoVisible(Course _course)
+    {
+        course = _course;
+        _course.visibility = Visibility.Shown;
+        Console.WriteLine($"{_course.Name} is visible");
+    }
+
+    private void Save(string course)
+    {
+        course = courseName;
+        Console.WriteLine($"{course} is saved");
+    }
+
+    private IEnumerable<Element> FilteredElements()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            return elements;
+        }
+
+        return elements.Where(e => e.Type.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase) >= 0);
+    }
+}
+
+
+<style>
+    .outer-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .form-fields {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .inner-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .grid {
+        margin-top: 15px;
+        border: 1px solid black;
+        height: 400px;
+        width: 550px;
+    }
+
+    .cell {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 1px solid black;
+        text-align: center;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+    }
+
+    .side-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 25px;
+        margin-top: 15px;
+    }
+
+    .element-box {
+        height: 420px;
+        width: 300px;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+
+    .elements-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .element {
+        flex: 0 0 calc(50% - 10px);
+        margin: 5px;
+        padding: 10px;
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    .buttons {
+        display: flex;
+        width: 100%;
+        margin-top: 15px;
+        gap: 15px;
+    }
+</style>
+
+<script>
+    const position = { x: 0, y: 0 }
+
+    interact('.cell').draggable({
+        modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: '.grid'
+            })
+        ],
+        listeners: {
+            start(event) {
+                console.log(event.type, event.target)
+            },
+            move(event) {
+                position.x += event.dx
+                position.y += event.dy
+
+                event.target.style.transform =
+                    `translate(${position.x}px, ${position.y}px)`
+            },
+        }
+    })
+</script>

@@ -1,0 +1,49 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Class="top-banner">
+        <MudContainer Class="ml-4 home-container">
+            <MudIconButton Href="/" LinkNavIcon="@Icons.Material.Filled.Home">
+                <img src="images/RallyLogo.png" alt="Home" class="home-logo" />
+            </MudIconButton>
+        </MudContainer>
+
+        <MudSpacer />
+
+        <NavMenu />
+
+        <LoginDisplay />
+    </MudAppBar>
+
+    <div class="main-layout">
+        <MudMainContent>
+            @Body
+        </MudMainContent>
+    </div>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+}
+
+
+<style>
+    .home-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .top-banner {
+        background-color: cadetblue;
+    }
+
+    .home-logo {
+        height: 70px;
+        width: auto;
+        cursor: pointer;
+    }
+</style>

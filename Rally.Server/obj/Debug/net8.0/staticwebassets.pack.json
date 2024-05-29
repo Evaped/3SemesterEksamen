@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Eva\\Datamatiker\\Programmering\\programmer\\3Semester\\Projekt\\ProjectRally\\Rally.Server\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Rally.Server.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Rally.Server.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\Eva\\Datamatiker\\Programmering\\programmer\\3Semester\\Projekt\\ProjectRally\\Rally.Server\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "D:\\Eva\\Datamatiker\\Programmering\\programmer\\3Semester\\Projekt\\ProjectRally\\Rally.Server\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Eva\\Datamatiker\\Programmering\\programmer\\3Semester\\Projekt\\ProjectRally\\Rally.Server\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Eva\\Datamatiker\\Programmering\\programmer\\3Semester\\Projekt\\ProjectRally\\Rally.Server\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Rally.Server.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Rally.Server.props",
+      "PackagePath": "build\\Rally.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Rally.Server.props",
+      "PackagePath": "buildMultiTargeting\\Rally.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Rally.Server.props",
+      "PackagePath": "buildTransitive\\Rally.Server.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
